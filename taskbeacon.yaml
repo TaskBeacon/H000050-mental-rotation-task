@@ -1,0 +1,20 @@
+id: H000050
+slug: mental-rotation-task
+title: Mental Rotation Task
+acquisition: behavior
+variant: html
+cognitive_domain:
+  - reasoning
+  - intelligence
+maturity: draft
+version:
+  release_tag: v0.1.0-dev
+contracts:
+  taps: v0.2.0
+evidence:
+  - references/alignment-matrix.md
+  - references/validation-checklist.md
+maintainer: []
+runtime:
+  profile: web
+short_description: Browser companion for the intended Mental Rotation Task, preserving angle-by-baseline stimulus scheduling, same/different scoring, practice feedback, and block summaries.

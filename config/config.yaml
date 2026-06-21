@@ -1,0 +1,188 @@
+# ============================================================================
+# H000050 Mental Rotation Task web config
+# ============================================================================
+
+subinfo_fields:
+  - name: subject_id
+    type: int
+    constraints:
+      min: 101
+      max: 999
+      digits: 3
+
+subinfo_mapping:
+  subject_id: Subject ID (3 digits)
+  Participant Information: Participant Information
+  registration_failed: Registration failed
+  registration_successful: Registration successful
+  invalid_input: "Invalid input for {field}"
+
+window:
+  size: [1280, 720]
+  units: pix
+  bg_color: black
+  fullscreen: false
+
+task:
+  task_name: Mental Rotation Task
+  save_path: ./outputs/human
+  total_blocks: 2
+  total_trials: 108
+  trial_per_block: 48
+  practice_trials: 12
+  practice_baseline_ids: [13, 14, 15]
+  scored_baseline_ranges:
+    - [1, 6]
+    - [7, 12]
+  angle_degrees: [0, 50, 100, 150]
+  key_list: [space, b, n]
+  same_key: b
+  different_key: n
+  response_keys: [b, n]
+  continue_key: space
+  seed_mode: same_across_sub
+  overall_seed: 2026
+  voice_enabled: false
+  hide_cursor: true
+  force_quit_enabled: true
+  force_quit_shortcut: ctrl+q
+  enable_logging: true
+  fixation_duration: 0.5
+  response_deadline: 8.0
+  practice_feedback_duration: 0.8
+  iti_duration: 0.6
+
+stimuli:
+  instruction_text:
+    type: text
+    text: |
+      Mental Rotation Task
+
+      You will see two objects on each trial.
+      Decide whether the two objects are the same object rotated in depth, or different mirror images.
+
+      Press B for Same.
+      Press N for Different.
+
+      Complete the practice trials first, then the scored blocks.
+      Press SPACE to begin.
+    font: Arial
+    color: white
+    height: 28
+    wrapWidth: 1040
+    pos: [0, 0]
+
+  fixation:
+    type: text
+    text: "+"
+    font: Arial
+    color: white
+    height: 44
+    pos: [0, 0]
+
+  stimulus_image:
+    type: image
+    image: ../assets/stimuli/1_0.jpg
+    size: [560, 420]
+    pos: [0, 20]
+    units: pix
+
+  response_prompt:
+    type: text
+    text: "B = Same    N = Different"
+    font: Arial
+    color: white
+    height: 24
+    pos: [0, -310]
+
+  practice_feedback_correct:
+    type: text
+    text: "Correct"
+    font: Arial
+    color: "#7BD88F"
+    height: 34
+    pos: [0, 0]
+
+  practice_feedback_incorrect:
+    type: text
+    text: "Incorrect"
+    font: Arial
+    color: "#F2A23A"
+    height: 34
+    pos: [0, 0]
+
+  practice_feedback_timeout:
+    type: text
+    text: "Too slow"
+    font: Arial
+    color: "#F2A23A"
+    height: 34
+    pos: [0, 0]
+
+  practice_break:
+    type: text
+    text: |
+      Practice complete.
+
+      Press SPACE to begin the scored blocks.
+    font: Arial
+    color: white
+    height: 30
+    wrapWidth: 900
+    pos: [0, 0]
+
+  block_break:
+    type: text
+    text: |
+      Block {block_num}/{total_blocks} complete
+      Accuracy: {accuracy:.1%}
+      Mean correct RT: {mean_correct_rt_ms:.0f} ms
+      Timeouts: {timeout_count}
+
+      Press SPACE to continue.
+    font: Arial
+    color: white
+    height: 28
+    wrapWidth: 980
+    pos: [0, 0]
+
+  good_bye:
+    type: text
+    text: |
+      Task complete
+      Trials: {n_trials}
+      Accuracy: {accuracy:.1%}
+      Mean correct RT: {mean_correct_rt_ms:.0f} ms
+      Timeouts: {timeout_count}
+
+      Press SPACE to exit.
+    font: Arial
+    color: white
+    height: 28
+    wrapWidth: 980
+    pos: [0, 0]
+
+triggers:
+  map:
+    exp_onset: 1
+    exp_end: 2
+    block_onset: 10
+    block_end: 11
+    fixation_onset: 20
+    stimulus_onset: 30
+    response_same: 41
+    response_different: 42
+    response_timeout: 45
+    practice_feedback_onset: 50
+    iti_onset: 60
+
+  driver:
+    type: serial_url
+    url: loop://
+    baudrate: 115200
+
+  timing:
+    post_delay_ms: 1
+
+  policy:
+    strict: false
