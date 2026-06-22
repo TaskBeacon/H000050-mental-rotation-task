@@ -20,6 +20,7 @@ subinfo_mapping:
 window:
   size: [1280, 720]
   units: pix
+  screen: 0
   bg_color: black
   fullscreen: false
 
@@ -30,6 +31,116 @@ task:
   total_trials: 108
   trial_per_block: 48
   practice_trials: 12
+  conditions:
+    - practice_01
+    - practice_02
+    - practice_03
+    - practice_04
+    - practice_05
+    - practice_06
+    - practice_07
+    - practice_08
+    - practice_09
+    - practice_10
+    - practice_11
+    - practice_12
+    - block1_01
+    - block1_02
+    - block1_03
+    - block1_04
+    - block1_05
+    - block1_06
+    - block1_07
+    - block1_08
+    - block1_09
+    - block1_10
+    - block1_11
+    - block1_12
+    - block1_13
+    - block1_14
+    - block1_15
+    - block1_16
+    - block1_17
+    - block1_18
+    - block1_19
+    - block1_20
+    - block1_21
+    - block1_22
+    - block1_23
+    - block1_24
+    - block1_25
+    - block1_26
+    - block1_27
+    - block1_28
+    - block1_29
+    - block1_30
+    - block1_31
+    - block1_32
+    - block1_33
+    - block1_34
+    - block1_35
+    - block1_36
+    - block1_37
+    - block1_38
+    - block1_39
+    - block1_40
+    - block1_41
+    - block1_42
+    - block1_43
+    - block1_44
+    - block1_45
+    - block1_46
+    - block1_47
+    - block1_48
+    - block2_01
+    - block2_02
+    - block2_03
+    - block2_04
+    - block2_05
+    - block2_06
+    - block2_07
+    - block2_08
+    - block2_09
+    - block2_10
+    - block2_11
+    - block2_12
+    - block2_13
+    - block2_14
+    - block2_15
+    - block2_16
+    - block2_17
+    - block2_18
+    - block2_19
+    - block2_20
+    - block2_21
+    - block2_22
+    - block2_23
+    - block2_24
+    - block2_25
+    - block2_26
+    - block2_27
+    - block2_28
+    - block2_29
+    - block2_30
+    - block2_31
+    - block2_32
+    - block2_33
+    - block2_34
+    - block2_35
+    - block2_36
+    - block2_37
+    - block2_38
+    - block2_39
+    - block2_40
+    - block2_41
+    - block2_42
+    - block2_43
+    - block2_44
+    - block2_45
+    - block2_46
+    - block2_47
+    - block2_48
+  condition_weights: null
   practice_baseline_ids: [13, 14, 15]
   scored_baseline_ranges:
     - [1, 6]
@@ -47,6 +158,8 @@ task:
   force_quit_enabled: true
   force_quit_shortcut: ctrl+q
   enable_logging: true
+
+timing:
   fixation_duration: 0.5
   response_deadline: 8.0
   practice_feedback_duration: 0.8
