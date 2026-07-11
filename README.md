@@ -1,6 +1,6 @@
 # H000050 Mental Rotation Task
 
-Browser companion for the intended `T000050-mental-rotation-task`.
+Browser companion for `T000050-mental-rotation-task`.
 
 ## Contract
 
@@ -18,7 +18,7 @@ Browser companion for the intended `T000050-mental-rotation-task`.
 
 ## Source Note
 
-The local T000050 directory is internally inconsistent: `taskbeacon.yaml`, `src/utils.py`, and `assets/stimuli/*.jpg` define a Mental Rotation task, while `config/config.yaml`, `README.md`, and `src/run_trial.py` still contain Matrix Reasoning content. This H port follows the T000050 task identity and the Mental Rotation schedule/stimulus generator from `src/utils.py`, with a web config reconstructed around those canonical assets.
+The local T000050 task is the canonical source. This H port preserves its deterministic practice/scored session plan, same/different scoring semantics, participant-facing instructions, and static object-pair asset naming.
 
 ## Development
 

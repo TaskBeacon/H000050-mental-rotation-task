@@ -5,7 +5,7 @@ import { buildSessionPlan, buildTrialBank, summarizeTrials, type SessionBlock } 
 
 const TASK_ID = "H000050-mental-rotation-task";
 const TASK_NAME = "Mental Rotation Task";
-const TASK_DESCRIPTION = "Browser companion for the intended canonical T000050 Mental Rotation Task.";
+const TASK_DESCRIPTION = "Browser companion for the canonical T000050 Mental Rotation Task.";
 
 type TaskSettingsView = TaskSettings & Record<string, unknown>;
 

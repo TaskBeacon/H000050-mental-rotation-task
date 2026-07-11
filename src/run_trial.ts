@@ -24,10 +24,13 @@ export function runTrial(trial: TrialBuilder, trialSpec: MentalRotationTrialSpec
   const differentKey = String(settings.different_key ?? "n").toLowerCase();
   const responseKeys = [sameKey, differentKey];
   const correctKey = trialSpec.trial_type === "same" ? sameKey : differentKey;
-  const fixationDuration = numberSetting(settings, "fixation_duration", 0.5);
+  const triggerMap = (settings.triggers as Record<string, number | null | undefined>) ?? {};
+  const responseTriggers: Record<string, number> = {};
+  if (typeof triggerMap.response_b === "number") responseTriggers[sameKey] = triggerMap.response_b;
+  if (typeof triggerMap.response_n === "number") responseTriggers[differentKey] = triggerMap.response_n;
+  const blankDuration = numberSetting(settings, "blank_duration", 0.25);
   const responseDeadline = numberSetting(settings, "response_deadline", 8);
   const feedbackDuration = numberSetting(settings, "practice_feedback_duration", 0.8);
-  const itiDuration = numberSetting(settings, "iti_duration", 0.6);
 
   trial.setTrialState("block_id", trialSpec.block_id);
   trial.setTrialState("block_idx", trialSpec.block_idx);
@@ -45,22 +48,21 @@ export function runTrial(trial: TrialBuilder, trialSpec: MentalRotationTrialSpec
   trial.setTrialState("stimulus_filename", trialSpec.stimulus_filename);
   trial.setTrialState("stimulus_summary", trialSpec.stimulus_summary);
 
-  const fixation = trial.unit("fixation").addStim(options.stimBank.get("fixation"));
-  set_trial_context(fixation, {
+  const blank = trial.unit("blank_screen").addStim(options.stimBank.get("blank_screen"));
+  set_trial_context(blank, {
     trial_id: trial.trial_id,
-    phase: "fixation",
-    deadline_s: fixationDuration,
+    phase: "blank_screen",
+    deadline_s: blankDuration,
     valid_keys: [],
     block_id: trialSpec.block_id,
     condition_id: trialSpec.condition_label,
-    task_factors: { stage: "fixation", block_kind: trialSpec.block_kind, trial_type: trialSpec.trial_type, angle_deg: trialSpec.angle_deg },
-    stim_id: "fixation"
+    task_factors: { stage: "blank_screen", block_kind: trialSpec.block_kind, trial_type: trialSpec.trial_type, angle_deg: trialSpec.angle_deg },
+    stim_id: "blank_screen"
   });
-  fixation.show({ duration: fixationDuration });
+  blank.show({ duration: blankDuration, onset_trigger: triggerMap.blank_onset ?? null });
 
   const response = trial.unit("response_window").addStim(
-    options.stimBank.rebuild("stimulus_image", { image: stimulusUrl(trialSpec.stimulus_filename) }),
-    options.stimBank.get("response_prompt")
+    options.stimBank.rebuild("stimulus_image", { image: stimulusUrl(trialSpec.stimulus_filename) })
   );
   set_trial_context(response, {
     trial_id: trial.trial_id,
@@ -79,7 +81,15 @@ export function runTrial(trial: TrialBuilder, trialSpec: MentalRotationTrialSpec
     },
     stim_id: trialSpec.stimulus_filename
   });
-  response.captureResponse({ keys: responseKeys, correct_keys: [correctKey], duration: responseDeadline, terminate_on_response: true });
+  response.captureResponse({
+    keys: responseKeys,
+    correct_keys: [correctKey],
+    duration: responseDeadline,
+    terminate_on_response: true,
+    onset_trigger: triggerMap.stimulus_onset ?? null,
+    response_trigger: responseTriggers,
+    timeout_trigger: triggerMap.response_timeout ?? null
+  });
 
   if (trialSpec.practice) {
     const feedback = trial.unit("practice_feedback").addStim((snapshot) => {
@@ -102,21 +112,8 @@ export function runTrial(trial: TrialBuilder, trialSpec: MentalRotationTrialSpec
       task_factors: { stage: "practice_feedback", trial_type: trialSpec.trial_type, correct_key: correctKey },
       stim_id: "practice_feedback"
     });
-    feedback.show({ duration: feedbackDuration });
+    feedback.show({ duration: feedbackDuration, onset_trigger: triggerMap.practice_feedback_onset ?? null });
   }
-
-  const iti = trial.unit("iti").addStim(options.stimBank.get("fixation"));
-  set_trial_context(iti, {
-    trial_id: trial.trial_id,
-    phase: "iti",
-    deadline_s: itiDuration,
-    valid_keys: [],
-    block_id: trialSpec.block_id,
-    condition_id: trialSpec.condition_label,
-    task_factors: { stage: "iti", block_kind: trialSpec.block_kind, trial_type: trialSpec.trial_type, angle_deg: trialSpec.angle_deg },
-    stim_id: "fixation"
-  });
-  iti.show({ duration: itiDuration });
 
   trial.finalize((snapshot, _runtime, helpers) => {
     const responseState = snapshot.units.response_window ?? {};

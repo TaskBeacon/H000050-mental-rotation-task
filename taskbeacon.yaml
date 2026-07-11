@@ -4,8 +4,8 @@ title: Mental Rotation Task
 acquisition: behavior
 variant: html
 cognitive_domain:
-  - reasoning
-  - intelligence
+  - visuospatial cognition
+  - spatial reasoning
 maturity: draft
 version:
   release_tag: v0.1.0-dev
