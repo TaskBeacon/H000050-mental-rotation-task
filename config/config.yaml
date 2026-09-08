@@ -184,9 +184,8 @@ triggers:
     block_break_onset: 55
 
   driver:
-    type: serial_url
-    url: loop://
-    baudrate: 115200
+    type: mock
+    print_codes: true
 
   timing:
     post_delay_ms: 1
